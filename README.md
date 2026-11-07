@@ -143,6 +143,8 @@ kubectl get ServiceImport -A
 
 AWS Cloud Map MCS Controller for K8s adheres to the [SemVer](https://semver.org/) specification. To see a full list of releases, refer to the [GitHub releases page](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/releases).
 
+The latest fork release is v0.3.2.
+
 > **_NOTE:_** AWS region environment variable can be _optionally_ set like `export AWS_REGION=us-west-2` Otherwise controller will infer region in the order `AWS_REGION` environment variable, ~/.aws/config file, then EC2 metadata (for EKS environment)
 
 The following command format is used to install from a particular release.
