@@ -248,9 +248,10 @@ func removeTimestampAttr(attributes map[string]string, attr string) (int64, erro
 func (e *Endpoint) GetCloudMapAttributes() map[string]string {
 	attrs := make(map[string]string)
 
-	if e.AddressType == discovery.AddressTypeIPv4 {
+	switch e.AddressType {
+	case discovery.AddressTypeIPv4:
 		attrs[EndpointIpv4Attr] = e.IP
-	} else if e.AddressType == discovery.AddressTypeIPv6 {
+	case discovery.AddressTypeIPv6:
 		attrs[EndpointIpv6Attr] = e.IP
 	}
 
@@ -343,6 +344,6 @@ func GetAddressTypeFromString(addressTypeStr string) (discovery.AddressType, err
 	case string(discovery.AddressTypeIPv6):
 		return discovery.AddressTypeIPv6, nil
 	default:
-		return "", fmt.Errorf("Invalid AddressType, could not parse from string: %s", addressTypeStr)
+		return "", fmt.Errorf("invalid AddressType, could not parse from string: %s", addressTypeStr)
 	}
 }

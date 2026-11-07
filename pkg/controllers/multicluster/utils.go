@@ -195,8 +195,8 @@ func CreateServiceImportStruct(svc *model.Service, clusterIds []string, serviceP
 // CreateDerivedServiceStruct creates struct representation of a derived service
 func CreateDerivedServiceStruct(svcImport *multiclusterv1alpha1.ServiceImport, importedSvcPorts []*model.Port, clusterId string) *v1.Service {
 	ownerRef := metav1.NewControllerRef(svcImport, schema.GroupVersionKind{
-		Version: svcImport.TypeMeta.APIVersion,
-		Kind:    svcImport.TypeMeta.Kind,
+		Version: svcImport.APIVersion,
+		Kind:    svcImport.Kind,
 	})
 
 	svcPorts := make([]v1.ServicePort, 0)
@@ -234,8 +234,8 @@ func CreateEndpointForSlice(svc *v1.Service, endpoint *model.Endpoint) discovery
 			Kind:            "Service",
 			Namespace:       svc.Namespace,
 			Name:            svc.Name,
-			UID:             svc.ObjectMeta.UID,
-			ResourceVersion: svc.ObjectMeta.ResourceVersion,
+			UID:             svc.UID,
+			ResourceVersion: svc.ResourceVersion,
 		},
 		Addresses: []string{endpoint.IP},
 		Conditions: discovery.EndpointConditions{
@@ -266,8 +266,8 @@ func CreateEndpointSliceStruct(svc *v1.Service, svcImportName string, clusterId 
 			},
 			GenerateName: svc.Name + "-",
 			OwnerReferences: []metav1.OwnerReference{*metav1.NewControllerRef(svc, schema.GroupVersionKind{
-				Version: svc.TypeMeta.APIVersion,
-				Kind:    svc.TypeMeta.Kind,
+				Version: svc.APIVersion,
+				Kind:    svc.Kind,
 			})},
 			Namespace: svc.Namespace,
 		},

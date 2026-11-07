@@ -90,9 +90,9 @@ func NewExportServiceScenario(cfg *aws.Config, nsName string, svcName string, cl
 func (e *exportServiceScenario) Run() error {
 	fmt.Printf("Seeking expected service: %v\n", e.expectedSvc)
 
-	return wait.Poll(defaultScenarioPollInterval, defaultScenarioPollTimeout, func() (done bool, err error) {
+	return wait.PollUntilContextTimeout(context.Background(), defaultScenarioPollInterval, defaultScenarioPollTimeout, true, func(ctx context.Context) (done bool, err error) {
 		fmt.Println("Polling service...")
-		cmSvc, err := e.sdClient.GetService(context.TODO(), e.expectedSvc.Namespace, e.expectedSvc.Name)
+		cmSvc, err := e.sdClient.GetService(ctx, e.expectedSvc.Namespace, e.expectedSvc.Name)
 		if common.IsUnknown(err) {
 			return true, err
 		}

@@ -69,6 +69,7 @@ type ServicePort struct {
 	// The IP protocol for this port. Supports "TCP", "UDP", and "SCTP".
 	// Default is TCP.
 	// +optional
+	// +kubebuilder:default="TCP"
 	Protocol v1.Protocol `json:"protocol,omitempty"`
 
 	// The application protocol for this port.

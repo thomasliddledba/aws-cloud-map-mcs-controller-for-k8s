@@ -39,13 +39,13 @@ func TestCleanupHappyCase(t *testing.T) {
 
 	tj.mockApi.EXPECT().DeregisterInstance(context.TODO(), test.SvcId, test.EndptId1).
 		Return(test.OpId1, nil)
-	tj.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tj.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
 	tj.mockApi.EXPECT().DeleteService(context.TODO(), test.SvcId).
 		Return(nil)
 	tj.mockApi.EXPECT().DeleteNamespace(context.TODO(), test.HttpNsId).
 		Return(test.OpId2, nil)
-	tj.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId2).
+	tj.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId2).
 		Return(&types.Operation{Status: types.OperationStatusSuccess,
 			Targets: map[string]string{string(types.OperationTargetTypeNamespace): test.HttpNsId}}, nil)
 
