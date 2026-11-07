@@ -1,21 +1,21 @@
 # AWS Cloud Map MCS Controller for K8s
 
 [![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/aws/aws-cloud-map-mcs-controller-for-k8s)
-[![CodeQL](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/codeql-analysis.yml)
-[![Build status](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/build.yml)
-[![Deploy status](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/deploy.yml)
-[![Integration status](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/integration-test.yml/badge.svg?branch=main)](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/integration-test.yml)
+[![CodeQL](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/codeql-analysis.yml)
+[![Build status](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/build.yml)
+[![Deploy status](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/deploy.yml)
+[![Integration status](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/integration-test.yml/badge.svg?branch=main)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/actions/workflows/integration-test.yml)
 [![codecov](https://codecov.io/gh/aws/aws-cloud-map-mcs-controller-for-k8s/branch/main/graph/badge.svg)](https://codecov.io/gh/aws/aws-cloud-map-mcs-controller-for-k8s)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg?color=success)](http://www.apache.org/licenses/LICENSE-2.0)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/issues)
-[![GitHub issues](https://img.shields.io/github/issues-raw/aws/aws-cloud-map-mcs-controller-for-k8s?style=flat)](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/issues)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/issues)
+[![GitHub issues](https://img.shields.io/github/issues-raw/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s?style=flat)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/issues)
 [![Go Report Card](https://goreportcard.com/badge/github.com/aws/aws-cloud-map-mcs-controller-for-k8s)](https://goreportcard.com/report/github.com/aws/aws-cloud-map-mcs-controller-for-k8s)
 
 ## Introduction
 The AWS Cloud Map Multi-cluster Service Discovery Controller for Kubernetes (K8s) implements the Kubernetes [KEP-1645: Multi-Cluster Services API](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api) and [KEP-2149: ClusterId for ClusterSet identification](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid), which allows services to communicate across multiple clusters. The implementation relies on [AWS Cloud Map](https://aws.amazon.com/cloud-map/) for enabling cross-cluster service discovery. We have detailed [step-by-step setup guide](https://aws.amazon.com/blogs/opensource/kubernetes-multi-cluster-service-discovery-using-open-source-aws-cloud-map-mcs-controller/)!
 
-**⚠ NOTE: The current version [![GitHub Release](https://img.shields.io/github/release/aws/aws-cloud-map-mcs-controller-for-k8s.svg?style=flat&label=)]() is in *Alpha* phase, and NOT intended for production use. The support will be limited to critical bug fixes.** 
+**⚠ NOTE: The current version [![GitHub Release](https://img.shields.io/github/release/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s.svg?style=flat&label=)](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/releases) is in *Alpha* phase, and NOT intended for production use. The support will be limited to critical bug fixes.**
 
 *Checkout the [Graduation Criteria](#graduation-criteria) for moving the project to the next phase.*
 
@@ -42,9 +42,9 @@ Install the CoreDNS multicluster plugin into each participating cluster. The mul
 To install the plugin, run the following commands.
 
 ```bash
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/samples/coredns-clusterrole.yaml"
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/samples/coredns-configmap.yaml"
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/samples/coredns-deployment.yaml"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/samples/coredns-clusterrole.yaml"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/samples/coredns-configmap.yaml"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/samples/coredns-deployment.yaml"
 ```
 
 ### Install Controller
@@ -54,7 +54,7 @@ To install the latest release of the controller, run the following commands.
 > **_NOTE:_** AWS region environment variable can be _optionaly_ set like `export AWS_REGION=us-west-2` Otherwise the controller will infer region in the order `AWS_REGION` environment variable, ~/.aws/config file, then EC2 metadata (for EKS environment)
 
 ```sh
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
 ```
 
 > 📌 See [Releases](#Releases) section for details on how to install other versions.
@@ -127,9 +127,9 @@ metadata:
 
 ```sh
 kubectl create namespace example
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/samples/example-deployment.yaml
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/samples/example-service.yaml
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/samples/example-serviceexport.yaml
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/samples/example-deployment.yaml
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/samples/example-service.yaml
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/samples/example-serviceexport.yaml
 ```
 
 ### Import services
@@ -141,30 +141,30 @@ kubectl get ServiceImport -A
 
 ## Releases
 
-AWS Cloud Map MCS Controller for K8s adheres to the [SemVer](https://semver.org/) specification. Each release updates the major version tag (eg. `vX`), a major/minor version tag (eg. `vX.Y`) and a major/minor/patch version tag (eg. `vX.Y.Z`). To see a full list of all releases, refer to our [Github releases page](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/releases).
+AWS Cloud Map MCS Controller for K8s adheres to the [SemVer](https://semver.org/) specification. To see a full list of releases, refer to the [GitHub releases page](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/releases).
 
 > **_NOTE:_** AWS region environment variable can be _optionally_ set like `export AWS_REGION=us-west-2` Otherwise controller will infer region in the order `AWS_REGION` environment variable, ~/.aws/config file, then EC2 metadata (for EKS environment)
 
 The following command format is used to install from a particular release.
 ```sh
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release[?ref=*git version tag*]"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release[?ref=*git version tag*]"
 ```
 
 Run the following command to install the latest release.
 ```sh
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
 ```
 
 The following example will install release v0.1.0.
 ```sh
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release?ref=v0.1.0"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release?ref=v0.1.0"
 ```
 
 We also maintain a `latest` tag, which is updated to stay in line with the `main` branch. We **do not** recommend installing this on any production cluster, as any new major versions updated on the `main` branch will introduce breaking changes.
 
 To install from `latest` tag run the following command.
 ```sh
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_latest"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_latest"
 ```
 
 ## Graduation Criteria
@@ -182,10 +182,10 @@ We have an open Slack community where users may get support with integration, di
 Join the channel with this [invite](https://join.slack.com/t/awsappmesh/shared_invite/zt-dwgbt85c-Sj_md92__quV8YADKfsQSA).
 
 ## Contributing
-`aws-cloud-map-mcs-controller-for-k8s` is an open source project. See [CONTRIBUTING](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/blob/main/CONTRIBUTING.md) for details.
+`aws-cloud-map-mcs-controller-for-k8s` is an open source project. See [CONTRIBUTING](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/blob/main/CONTRIBUTING.md) for details.
 
 ## License
 
 This project is distributed under the
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0),
-see [LICENSE](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/blob/main/LICENSE) and [NOTICE](https://github.com/aws/aws-cloud-map-mcs-controller-for-k8s/blob/main/NOTICE) for more information.
+see [LICENSE](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/blob/main/LICENSE) and [NOTICE](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/blob/main/NOTICE) for more information.

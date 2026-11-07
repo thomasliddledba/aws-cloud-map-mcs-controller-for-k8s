@@ -3,6 +3,7 @@ name: deploy
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ]
 
 jobs:
 
@@ -36,6 +37,14 @@ jobs:
 
     - name: Push image for github container repository with commit SHA
       run: 'docker push $REGISTRY:$GITHUB_SHA'
+
+    - name: Tag image for release
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: 'docker tag controller:latest $REGISTRY:$GITHUB_REF_NAME'
+
+    - name: Push image for release
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: 'docker push $REGISTRY:$GITHUB_REF_NAME'
 
     - name: Tag image for github container repository with latest
       run: 'docker tag controller:latest $REGISTRY:latest'
