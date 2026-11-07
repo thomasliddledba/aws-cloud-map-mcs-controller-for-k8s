@@ -44,7 +44,7 @@ func TestServiceDiscoveryApi_GetNamespaceMap_HappyCase(t *testing.T) {
 		Id:   &id,
 		Type: types.NamespaceTypeDnsPrivate,
 	}
-	awsFacade.EXPECT().ListNamespaces(context.TODO(), &sd.ListNamespacesInput{}).
+	awsFacade.EXPECT().ListNamespaces(context.TODO(), &sd.ListNamespacesInput{}, gomock.Any()).
 		Return(&sd.ListNamespacesOutput{Namespaces: []types.NamespaceSummary{ns}}, nil)
 
 	namespaces, err := sdApi.GetNamespaceMap(context.TODO())
@@ -66,7 +66,7 @@ func TestServiceDiscoveryApi_GetNamespaceMap_SkipPublicDNSNotSupported(t *testin
 		Id:   &id,
 		Type: types.NamespaceTypeDnsPublic,
 	}
-	awsFacade.EXPECT().ListNamespaces(context.TODO(), &sd.ListNamespacesInput{}).
+	awsFacade.EXPECT().ListNamespaces(context.TODO(), &sd.ListNamespacesInput{}, gomock.Any()).
 		Return(&sd.ListNamespacesOutput{Namespaces: []types.NamespaceSummary{ns}}, nil)
 
 	namespaces, err := sdApi.GetNamespaceMap(context.TODO())
@@ -86,7 +86,7 @@ func TestServiceDiscoveryApi_GetServiceIdMap_HappyCase(t *testing.T) {
 		Values: []string{test.HttpNsId},
 	}
 
-	awsFacade.EXPECT().ListServices(context.TODO(), &sd.ListServicesInput{Filters: []types.ServiceFilter{filter}}).
+	awsFacade.EXPECT().ListServices(context.TODO(), &sd.ListServicesInput{Filters: []types.ServiceFilter{filter}}, gomock.Any()).
 		Return(&sd.ListServicesOutput{Services: []types.ServiceSummary{
 			{Id: aws.String(test.SvcId), Name: aws.String(test.SvcName)},
 		}}, nil)

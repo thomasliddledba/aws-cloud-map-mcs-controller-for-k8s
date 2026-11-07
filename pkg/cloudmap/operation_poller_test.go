@@ -2,7 +2,7 @@ package cloudmap
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"testing"
 	"time"
 
@@ -67,7 +67,7 @@ func TestOperationPoller_AllFail(t *testing.T) {
 	op.Submit(context.TODO(), func() (opId string, err error) { return op2, nil })
 	unknown := "failed to reg error"
 	op.Submit(context.TODO(), func() (opId string, err error) {
-		return "", fmt.Errorf(unknown)
+		return "", errors.New(unknown)
 	})
 
 	err := op.Await()
@@ -132,8 +132,8 @@ func TestOperationPoller_Poll_HappyCase(t *testing.T) {
 
 	sdApi := cloudmapMock.NewMockServiceDiscoveryApi(mockController)
 
-	sdApi.EXPECT().GetOperation(context.TODO(), op1).Return(opPending(), nil)
-	sdApi.EXPECT().GetOperation(context.TODO(), op1).Return(opSuccess(), nil)
+	sdApi.EXPECT().GetOperation(gomock.Any(), op1).Return(opPending(), nil)
+	sdApi.EXPECT().GetOperation(gomock.Any(), op1).Return(opSuccess(), nil)
 
 	op := NewOperationPollerWithConfig(interval, timeout, sdApi)
 	_, err := op.Poll(context.TODO(), op1)

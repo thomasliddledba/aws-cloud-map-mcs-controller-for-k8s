@@ -442,7 +442,7 @@ func TestPortsEqualIgnoreOrder(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := PortsEqualIgnoreOrder(tt.args.portsA, tt.args.portsB); !(got == tt.want) {
+			if got := PortsEqualIgnoreOrder(tt.args.portsA, tt.args.portsB); got != tt.want {
 				t.Errorf("PortsEqualIgnoreOrder() = %v, want %v", got, tt.want)
 			}
 		})
@@ -504,7 +504,7 @@ func TestIPsEqualIgnoreOrder(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IPsEqualIgnoreOrder(tt.args.ipsA, tt.args.ipsB); !(got == tt.want) {
+			if got := IPsEqualIgnoreOrder(tt.args.ipsA, tt.args.ipsB); got != tt.want {
 				t.Errorf("IPsEqualIgnoreOrder() = %v, want %v", got, tt.want)
 			}
 		})

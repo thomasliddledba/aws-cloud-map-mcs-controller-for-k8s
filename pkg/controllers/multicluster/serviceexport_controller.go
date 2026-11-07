@@ -24,7 +24,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -241,8 +240,8 @@ func (r *ServiceExportReconciler) extractEndpoints(ctx context.Context, svc *v1.
 	}
 
 	var svcExportCreationTimestamp int64 = 0
-	if !svcExport.ObjectMeta.CreationTimestamp.IsZero() {
-		svcExportCreationTimestamp = svcExport.ObjectMeta.CreationTimestamp.Time.UnixMilli()
+	if !svcExport.CreationTimestamp.IsZero() {
+		svcExportCreationTimestamp = svcExport.CreationTimestamp.UnixMilli()
 	}
 
 	attributes := make(map[string]string)
@@ -286,33 +285,33 @@ func (r *ServiceExportReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		WithEventFilter(r.clusterPropertyFilter()).
 		// Watch for the changes to Service which have corresponding ServiceExport
 		Watches(
-			&source.Kind{Type: &v1.Service{}},
+			&v1.Service{},
 			&handler.EnqueueRequestForObject{},
 			builder.WithPredicates(r.serviceExportPredicates()),
 		).
 		// Watch for the changes to the EndpointSlice object which have corresponding ServiceExport.
 		// This object is bound to be updated when Deployment are updated.
 		Watches(
-			&source.Kind{Type: &discovery.EndpointSlice{}},
+			&discovery.EndpointSlice{},
 			handler.EnqueueRequestsFromMapFunc(r.endpointSliceMappingFunction()),
 			builder.WithPredicates(r.serviceExportPredicates()),
 		).
 		// Watch for changes to ClusterProperty objects. If a ClusterProperty object is
 		// created, updated or deleted, the controller will reconcile all service exports
 		Watches(
-			&source.Kind{Type: &aboutv1alpha1.ClusterProperty{}},
+			&aboutv1alpha1.ClusterProperty{},
 			handler.EnqueueRequestsFromMapFunc(r.clusterPropertyMappingFunction()),
 		).
 		WithOptions(controller.Options{
 			// rate-limiting is applied to reconcile responses with an error
 			// We are increasing the base delay to 500ms, defaults baseDelay: 5ms, maxDelay: 1000s
-			RateLimiter: workqueue.NewItemExponentialFailureRateLimiter(500*time.Millisecond, 1000*time.Second),
+			RateLimiter: workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](500*time.Millisecond, 1000*time.Second),
 		}).
 		Complete(r)
 }
 
 func (r *ServiceExportReconciler) endpointSliceMappingFunction() handler.MapFunc {
-	return func(object client.Object) []reconcile.Request {
+	return func(_ context.Context, object client.Object) []reconcile.Request {
 		labels := object.GetLabels()
 		serviceName := labels[discovery.LabelServiceName]
 		return []reconcile.Request{
@@ -326,7 +325,7 @@ func (r *ServiceExportReconciler) endpointSliceMappingFunction() handler.MapFunc
 
 func (r *ServiceExportReconciler) clusterPropertyMappingFunction() handler.MapFunc {
 	// Return reconcile requests for all service exports
-	return func(object client.Object) []reconcile.Request {
+	return func(_ context.Context, object client.Object) []reconcile.Request {
 		// Reset clusterproperties if there is an &aboutv1alpha1.ClusterProperty{} event
 		err := r.ClusterUtils.LoadClusterProperties(context.TODO())
 		if err != nil {

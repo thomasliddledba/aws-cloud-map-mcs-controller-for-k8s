@@ -115,7 +115,7 @@ func TestCloudMapReconciler_Reconcile_MulticlusterService(t *testing.T) {
 
 	derivedServiceMap := map[string]v1.Service{}
 	for _, derivedService := range derivedServiceList.Items {
-		derivedServiceMap[derivedService.ObjectMeta.Name] = derivedService
+		derivedServiceMap[derivedService.Name] = derivedService
 	}
 
 	derivedService1 := derivedServiceMap[DerivedName(svcImport.Namespace, svcImport.Name, test.ClusterId1)]
@@ -131,7 +131,7 @@ func TestCloudMapReconciler_Reconcile_MulticlusterService(t *testing.T) {
 
 	endpointSliceMap := make(map[string]discovery.EndpointSlice)
 	for _, endpointSlice := range endpointSliceList.Items {
-		endpointSliceName := endpointSlice.ObjectMeta.Name
+		endpointSliceName := endpointSlice.Name
 		derivedServiceName := endpointSliceName[:strings.LastIndex(endpointSliceName, "-")]
 		endpointSliceMap[derivedServiceName] = endpointSlice
 	}

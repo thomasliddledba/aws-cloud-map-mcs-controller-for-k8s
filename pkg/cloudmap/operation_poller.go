@@ -2,6 +2,7 @@ package cloudmap
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -84,7 +85,7 @@ func (p *operationPoller) Submit(ctx context.Context, opProvider func() (opId st
 
 func (p *operationPoller) Poll(ctx context.Context, opId string) (op *types.Operation, err error) {
 	// poll tries a condition func until it returns true, an error, or the timeout is reached.
-	err = wait.Poll(p.pollInterval, p.pollTimeout, func() (done bool, err error) {
+	err = wait.PollUntilContextTimeout(ctx, p.pollInterval, p.pollTimeout, true, func(ctx context.Context) (done bool, err error) {
 		p.log.Info("polling operation", "opId", opId)
 
 		op, err = p.sdApi.GetOperation(ctx, opId)
@@ -101,7 +102,7 @@ func (p *operationPoller) Poll(ctx context.Context, opId string) (op *types.Oper
 			return false, nil
 		}
 	})
-	if err == wait.ErrWaitTimeout {
+	if errors.Is(err, context.DeadlineExceeded) && ctx.Err() == nil {
 		err = fmt.Errorf("%s, opId: %s", operationPollTimoutErrorMessage, opId)
 	}
 

@@ -158,7 +158,7 @@ endif
 
 CONTROLLER_GEN = $(shell pwd)/bin/controller-gen
 controller-gen: ## Download controller-gen locally if necessary.
-	$(call go-get-tool,$(CONTROLLER_GEN),sigs.k8s.io/controller-tools/cmd/controller-gen@v0.9.2)
+	$(call go-get-tool,$(CONTROLLER_GEN),sigs.k8s.io/controller-tools/cmd/controller-gen@v0.23.0)
 
 KUSTOMIZE = $(shell pwd)/bin/kustomize
 kustomize: ## Download kustomize locally if necessary.
@@ -170,15 +170,11 @@ mockgen: ## Download mockgen
 
 GOLANGCI_LINT=$(shell pwd)/bin/golangci-lint
 golangci-lint: ## Download golangci-lint
-ifneq ($(shell test -f $(GOLANGCI_LINT); echo $$?), 0)
-	@echo Getting golangci-lint...
-	@mkdir -p $(shell pwd)/bin
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell pwd)/bin v1.50.1
-endif
+	$(call go-get-tool,$(GOLANGCI_LINT),github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0)
 
 GOIMPORTS = $(shell pwd)/bin/goimports
 goimports-bin: ## Download mockgen
-	$(call go-get-tool,$(GOIMPORTS),golang.org/x/tools/cmd/goimports@v0.1.12)
+	$(call go-get-tool,$(GOIMPORTS),golang.org/x/tools/cmd/goimports@v0.47.0)
 
 KIND = $(shell pwd)/bin/kind
 kind: ## Download kind

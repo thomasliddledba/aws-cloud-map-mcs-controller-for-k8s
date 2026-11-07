@@ -1,35 +1,52 @@
-linters-settings:
-  errcheck:
-    check-type-assertions: true
-  goconst:
-    min-len: 2
-    min-occurrences: 3
-  govet:
-    check-shadowing: true
-  nolintlint:
-    require-explanation: true
-    require-specific: true
-
+version: "2"
+run:
+  concurrency: 4
+  issues-exit-code: 1
 linters:
   enable:
     - dupl
     - goconst
     - gocritic
-    - gofmt
-    - goimports
     - misspell
     - whitespace
-
-issues:
-  exclude-rules:
-    - path: _test\.go # disable some linters on test files
-      linters:
-        - dupl
-
-run:
-  issues-exit-code: 1
-  concurrency: 4
-  skip:
-    - .*_mock.go
-    - mocks/
-    - pkg/apis/
+  settings:
+    errcheck:
+      check-type-assertions: true
+    goconst:
+      min-len: 2
+      min-occurrences: 3
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - dupl
+          - goconst
+        path: _test\.go
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+      - .*_mock\.go$
+      - mocks/
+      - pkg/apis/
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+      - .*_mock\.go$
+      - mocks/
+      - pkg/apis/

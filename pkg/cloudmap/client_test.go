@@ -186,7 +186,7 @@ func TestServiceDiscoveryClient_CreateService_NamespaceNotFound(t *testing.T) {
 
 	tc.mockCache.EXPECT().GetNamespaceMap().Return(map[string]*model.Namespace{}, true)
 	tc.mockApi.EXPECT().CreateHttpNamespace(context.TODO(), test.HttpNsName).Return(test.OpId1, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusSuccess,
 			Targets: map[string]string{string(types.OperationTargetTypeNamespace): test.HttpNsId}}, nil)
 	tc.mockCache.EXPECT().EvictNamespaceMap()
@@ -223,7 +223,7 @@ func TestServiceDiscoveryClient_CreateService_CreatesNamespace_HappyCase(t *test
 
 	tc.mockApi.EXPECT().CreateHttpNamespace(context.TODO(), test.HttpNsName).
 		Return(test.OpId1, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusSuccess,
 			Targets: map[string]string{string(types.OperationTargetTypeNamespace): test.HttpNsId}}, nil)
 	tc.mockCache.EXPECT().EvictNamespaceMap()
@@ -245,7 +245,7 @@ func TestServiceDiscoveryClient_CreateService_CreatesNamespace_PollError(t *test
 	pollErr := errors.New("polling error")
 	tc.mockApi.EXPECT().CreateHttpNamespace(context.TODO(), test.HttpNsName).
 		Return(test.OpId1, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(nil, pollErr)
 
 	err := tc.client.CreateService(context.TODO(), test.HttpNsName, test.SvcName)
@@ -341,9 +341,9 @@ func TestServiceDiscoveryClient_RegisterEndpoints(t *testing.T) {
 		Return(test.OpId1, nil)
 	tc.mockApi.EXPECT().RegisterInstance(context.TODO(), test.SvcId, test.EndptId2, getAttrs2()).
 		Return(test.OpId2, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId2).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId2).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
 
 	tc.mockCache.EXPECT().EvictEndpoints(test.HttpNsName, test.SvcName)
@@ -364,9 +364,9 @@ func TestServiceDiscoveryClient_RegisterEndpoints_PollFailure(t *testing.T) {
 		Return(test.OpId1, nil)
 	tc.mockApi.EXPECT().RegisterInstance(context.TODO(), test.SvcId, test.EndptId2, getAttrs2()).
 		Return(test.OpId2, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusFail}, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId2).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId2).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
 
 	tc.mockCache.EXPECT().EvictEndpoints(test.HttpNsName, test.SvcName)
@@ -388,9 +388,9 @@ func TestServiceDiscoveryClient_DeleteEndpoints(t *testing.T) {
 		Return(test.OpId1, nil)
 	tc.mockApi.EXPECT().DeregisterInstance(context.TODO(), test.SvcId, test.EndptId2).
 		Return(test.OpId2, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId2).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId2).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
 
 	tc.mockCache.EXPECT().EvictEndpoints(test.HttpNsName, test.SvcName)
@@ -413,9 +413,9 @@ func TestServiceDiscoveryClient_DeleteEndpoints_PollFailure(t *testing.T) {
 		Return(test.OpId1, nil)
 	tc.mockApi.EXPECT().DeregisterInstance(context.TODO(), test.SvcId, test.EndptId2).
 		Return(test.OpId2, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId1).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId1).
 		Return(&types.Operation{Status: types.OperationStatusFail}, nil)
-	tc.mockApi.EXPECT().GetOperation(context.TODO(), test.OpId2).
+	tc.mockApi.EXPECT().GetOperation(gomock.Any(), test.OpId2).
 		Return(&types.Operation{Status: types.OperationStatusSuccess}, nil)
 
 	tc.mockCache.EXPECT().EvictEndpoints(test.HttpNsName, test.SvcName)
