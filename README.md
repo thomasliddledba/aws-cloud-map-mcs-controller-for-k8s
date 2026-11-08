@@ -143,7 +143,11 @@ kubectl get ServiceImport -A
 
 AWS Cloud Map MCS Controller for K8s adheres to the [SemVer](https://semver.org/) specification. To see a full list of releases, refer to the [GitHub releases page](https://github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/releases).
 
-The latest fork release is v0.3.2.
+The latest fork release is v0.3.2. The fork publishes controller images to
+`ghcr.io/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s`. Release tags
+publish versioned images (for example, `v0.3.2`); pushes to `main` publish
+`latest` and commit-SHA tags. The release installation manifest uses the
+versioned image, while the latest installation manifest uses `latest`.
 
 > **_NOTE:_** AWS region environment variable can be _optionally_ set like `export AWS_REGION=us-west-2` Otherwise controller will infer region in the order `AWS_REGION` environment variable, ~/.aws/config file, then EC2 metadata (for EKS environment)
 
@@ -157,9 +161,9 @@ Run the following command to install the latest release.
 kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
 ```
 
-The following example will install release v0.1.0.
+The following example will install release v0.3.2.
 ```sh
-kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release?ref=v0.1.0"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release?ref=v0.3.2"
 ```
 
 We also maintain a `latest` tag, which is updated to stay in line with the `main` branch. We **do not** recommend installing this on any production cluster, as any new major versions updated on the `main` branch will introduce breaking changes.
