@@ -279,7 +279,7 @@ Run the following command against both clusters to install the MCS-Controller la
 
 ```bash
 export AWS_REGION=ap-southeast-2
-kubectl apply -k "github.com/aws/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
+kubectl apply -k "github.com/thomasliddledba/aws-cloud-map-mcs-controller-for-k8s/config/controller_install_release"
 ```
 
 ##### Assign mcs-api `ClusterSet` membership and `Cluster` identifier
